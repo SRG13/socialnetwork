@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Edit user</title>
+    <div>
+        <form method="post" th:object="${user}" th:action="@{/users/{id}(id=${user.id})}">
+            <input type="hidden" name="id" th:value="*{id}">
+            <p>Username: <input type="text" name="username" th:value="*{username}"></p>
+            <p>Email: <input type="email" name="email" th:value="*{email}"></p>
+            <p>First Name: <input type="text" name="firstName" th:value="*{firstName}"></p>
+            <p>Last Name: <input type="text" name="lastName" th:value="*{lastName}"></p>
+            <p>Enable: <input type="checkbox" name="enabled" th:checked="*{enabled}" th:field="*{enabled}"></p>
+            <p>Roles: <span th:each="r, iStat : *{roles}" th:text="!${iStat.last} ? ${r} + ', ' : ${r}"></span></p>
+            <p><input type="submit" value="Save Changes"/> <input type="reset" value="Reset"/></p>
+        </form>
+    </div>
+</head>
+</html>
