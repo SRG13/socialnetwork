@@ -28,7 +28,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registration(User user, Model model) {
-
+        user.setProfileImage("picture.jpg");
         user.setRoles(Collections.singleton(Role.USER));
         user.setEnabled(true);
         userRepo.save(user);

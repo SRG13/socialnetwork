@@ -11,4 +11,8 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
                 true, user.getRoles());
         this.user = user;
     }
+
+    public Integer getId() {
+        return user.getId();
+    }
 }

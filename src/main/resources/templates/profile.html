@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title th:text="${user.username}"></title>
+</head>
+<body>
+<div th:object="${user}">
+    <img th:src="@{/img/{imgName}(imgName=*{profileImage})}" width="240">
+    <p th:text="*{username}"></p>
+    <p th:text="*{email}"></p>
+    <p th:text="*{firstName} + ' ' + *{lastName} "></p>
+</div>
+<div>
+    <form method="post" enctype="multipart/form-data" th:action="@{/profile/addProfileImg}">
+        <div><label> Profile Image: <input type="file" name="img"></label></div>
+        <div><input type="submit" value="Save"></div>
+    </form>
+</div>
+</body>
+</html>

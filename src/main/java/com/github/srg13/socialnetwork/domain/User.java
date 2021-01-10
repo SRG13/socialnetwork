@@ -3,11 +3,8 @@ package com.github.srg13.socialnetwork.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -20,6 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private String profileImage;
     private String username;
     private String email;
     private String password;
