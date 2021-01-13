@@ -1,19 +1,58 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 >
-<head>
-    <title>Edit user</title>
-    <div>
-        <form method="post" th:object="${user}" th:action="@{/users/{id}(id=${user.id})}">
-            <input type="hidden" name="id" th:value="*{id}">
-            <p>Username: <input type="text" name="username" th:value="*{username}"></p>
-            <p>Email: <input type="email" name="email" th:value="*{email}"></p>
-            <p>First Name: <input type="text" name="firstName" th:value="*{firstName}"></p>
-            <p>Last Name: <input type="text" name="lastName" th:value="*{lastName}"></p>
-            <p>Enable: <input type="checkbox" name="enabled" th:checked="*{enabled}" th:field="*{enabled}"></p>
-            <p>Roles: <span th:each="r, iStat : *{roles}" th:text="!${iStat.last} ? ${r} + ', ' : ${r}"></span></p>
-            <p><input type="submit" value="Save Changes"/> <input type="reset" value="Reset"/></p>
-        </form>
-    </div>
+<head th:insert="~{fragments/common :: header}">
 </head>
+<body>
+
+<script th:replace="~{fragments/common :: bootstrap-script}"></script>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-sm d-flex justify-content-center">
+            <form th:action="@{/users/{id}(id=${user.id})}" method="post" th:object="${user}">
+                <div class="mb-3">
+                    <label for="idInput" class="form-label">Id</label>
+                    <input type="text" id="idInput" class="form-control" th:value="*{id}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="usernameInput" class="form-label">Username</label>
+                    <input class="form-control" name="username" type="text" id="usernameInput"
+                           aria-label="default input example" th:value="*{username}">
+                </div>
+                <div class="mb-3">
+                    <label for="firstNameInput" class="form-label">First Name</label>
+                    <input class="form-control" name="firstName" type="text" id="firstNameInput"
+                           aria-label="default input example"
+                           th:value="*{firstName}">
+                </div>
+                <div class="mb-3">
+                    <label for="lastNameInput" class="form-label">Last Name</label>
+                    <input class="form-control" name="lastName" type="text" id="lastNameInput"
+                           aria-label="default input example"
+                           th:value="*{lastName}">
+                </div>
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Email address</label>
+                    <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
+                           th:value="*{email}">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" name="enabled" th:checked="*{enabled}" th:field="*{enabled}"
+                           class="form-check-input" id="enabledInput">
+                    <label class="form-check-label" for="enabledInput">Enabled</label>
+                </div>
+                <div class="mb-3">
+                    <label for="rolesInput" class="form-label">Roles</label>
+                    <input type="text" id="rolesInput" class="form-control" th:value="*{roles}" readonly>
+                </div>
+                <button type="submit" class="btn btn-primary">Edit</button>
+                <input class="btn btn-secondary btn-sm" type="reset" value="Reset">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
 </html>

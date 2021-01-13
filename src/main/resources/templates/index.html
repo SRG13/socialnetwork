@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head th:insert="~{fragments/common :: header}">
+</head>
+<body>
+
+<script th:replace="~{fragments/common :: bootstrap-script}"></script>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h2>Hello [[${#httpServletRequest.remoteUser}]]!</h2>
+        <h4>My Pet-project.</h4>
+    </div>
+</div>
+</body>
+</html>

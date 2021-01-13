@@ -1,21 +1,39 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 >
-<head>
-    <title th:text="${user.username}"></title>
+<head th:insert="~{fragments/common :: header}">
 </head>
 <body>
-<div th:object="${user}">
-    <img th:src="@{/img/{imgName}(imgName=*{profileImage})}" width="240">
-    <p th:text="*{username}"></p>
-    <p th:text="*{email}"></p>
-    <p th:text="*{firstName} + ' ' + *{lastName} "></p>
-</div>
-<div>
-    <form method="post" enctype="multipart/form-data" th:action="@{/profile/addProfileImg}">
-        <div><label> Profile Image: <input type="file" name="img"></label></div>
-        <div><input type="submit" value="Save"></div>
-    </form>
+
+<script th:replace="~{fragments/common :: bootstrap-script}"></script>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container" th:object="${user}">
+    <div class="row">
+        <div class="col-sm">
+            <div class="float-left">
+                <img class="img-thumbnail" th:src="@{/img/{imgName}(imgName=*{profileImage})}" width="30%" ;
+                     height="25%">
+                <div class="mb-3">
+                    <form th:action="@{/profile/addProfileImg}" class="form-group m-2" method="post"
+                          enctype="multipart/form-data">
+                        <input type="file" name="img" aria-label="Upload">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </form>
+                </div>
+                </form>
+            </div>
+            <div class="col-sm">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="*{username}"></li>
+                    <li class="list-group-item" th:text="*{firstName} + ' ' + *{lastName}"></li>
+                    <li class="list-group-item" th:text="*{email}"></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
+

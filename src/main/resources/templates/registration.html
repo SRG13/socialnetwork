@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 >
-<head>
-    <title>Registration</title>
+<head th:insert="~{fragments/common :: header}">
 </head>
 <body>
-<div>
-    <form th:action="@{/registration}" method="post">
-        <div><label> User Name: <input type="text" name="username"></label></div>
-        <div><label> Email: <input type="email" name="email"/> </label></div>
-        <div><label> First Name: <input type="text" name="firstName"/> </label></div>
-        <div><label> Last Name: <input type="text" name="lastName"/> </label></div>
-        <div><label> Password: <input type="password" name="password"/> </label></div>
-        <div><input type="submit" value="Sign Up"/></div>
-    </form>
+
+<script th:replace="~{fragments/common :: bootstrap-script}"></script>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-sm d-flex justify-content-center">
+            <form th:action="@{/registration}" method="post">
+                <div class="mb-3">
+                    <label for="usernameInput" class="form-label">Username</label>
+                    <input class="form-control" name="username" type="text" id="usernameInput"
+                           aria-label="default input example">
+                </div>
+                <div class="mb-3">
+                    <label for="firstNameInput" class="form-label">First Name</label>
+                    <input class="form-control" name="firstName" type="text" id="firstNameInput"
+                           aria-label="default input example">
+                </div>
+                <div class="mb-3">
+                    <label for="lastNameInput" class="form-label">Last Name</label>
+                    <input class="form-control" name="lastName" type="text" id="lastNameInput"
+                           aria-label="default input example">
+                </div>
+                <div class="mb-3">
+                    <label for="emailInput" class="form-label">Email address</label>
+                    <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" id="passwordInput">
+                </div>
+                <button type="submit" class="btn btn-primary">Sign In</button>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
 >
-<head>
-    <title>Users</title>
+<head th:insert="~{fragments/common :: header}">
 </head>
-<div>
-    <table>
+<body>
+
+<script th:replace="~{fragments/common :: bootstrap-script}"></script>
+
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<div class="container">
+    <table class="table">
         <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Status</th>
-            <th>Roles</th>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Roles</th>
             <th></th>
         </tr>
         <tr th:each="user : ${users}">
@@ -24,9 +29,9 @@
             <td><span th:text="${user.lastName}"></span></td>
             <td><span th:text="${user.enabled} ? Active : Disabled"></span></td>
             <td><span th:each="r, iStat : ${user.roles}" th:text="!${iStat.last} ? ${r} + ', ' : ${r}"></span></td>
-            <td></td>
-            <td><a th:href="@{/users/{id}(id=${user.id})}">Edit</a></td>
+            <td><a th:href="@{/users/{id}(id=${user.id})}" class="badge badge-secondary">Edit</a></td>
         </tr>
     </table>
 </div>
+</body>
 </html>
