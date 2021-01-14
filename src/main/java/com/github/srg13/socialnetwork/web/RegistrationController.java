@@ -1,24 +1,21 @@
 package com.github.srg13.socialnetwork.web;
 
-import com.github.srg13.socialnetwork.domain.Role;
 import com.github.srg13.socialnetwork.domain.User;
-import com.github.srg13.socialnetwork.repository.UserRepository;
+import com.github.srg13.socialnetwork.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Collections;
-
 @Controller
 @RequestMapping(value = "/registration")
 public class RegistrationController {
 
-    private final UserRepository userRepo;
+    private final UserService userService;
 
-    public RegistrationController(UserRepository userRepo) {
-        this.userRepo = userRepo;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
@@ -28,10 +25,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registration(User user, Model model) {
-        user.setProfileImage("picture.jpg");
-        user.setRoles(Collections.singleton(Role.USER));
-        user.setEnabled(true);
-        userRepo.save(user);
+        userService.createOrUpdate(user);
 
         return "redirect:/login";
     }
