@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,9 +27,11 @@ public class UserService implements UserDetailsService {
     private String uploadPath;
 
     private final UserRepository userRepo;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepo) {
+    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -59,11 +62,11 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(Role.USER));
         user.setEnabled(true);
 
-        userRepo.save(prepareToSave(user));
+        userRepo.save(prepareToSave(user, passwordEncoder));
     }
 
     public void update(User user) {
-        userRepo.save(prepareToSave(user));
+        userRepo.save(prepareToSave(user, passwordEncoder));
     }
 
     public void saveProfileImage(int id, MultipartFile img) throws IOException {
