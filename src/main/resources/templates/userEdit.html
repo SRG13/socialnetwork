@@ -17,27 +17,40 @@
                     <label for="idInput" class="form-label">Id</label>
                     <input type="text" id="idInput" class="form-control" th:value="*{id}" readonly>
                 </div>
+
                 <div class="mb-3">
                     <label for="usernameInput" class="form-label">Username</label>
-                    <input class="form-control" name="username" type="text" id="usernameInput"
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="username" type="text"
+                           id="usernameInput"
                            aria-label="default input example" th:value="*{username}">
+                    <div th:if="${errors}" th:text="${errors.get('username')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="firstNameInput" class="form-label">First Name</label>
-                    <input class="form-control" name="firstName" type="text" id="firstNameInput"
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="firstName" type="text"
+                           id="firstNameInput"
                            aria-label="default input example"
                            th:value="*{firstName}">
+                    <div th:if="${errors}" th:text="${errors.get('firstName')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="lastNameInput" class="form-label">Last Name</label>
-                    <input class="form-control" name="lastName" type="text" id="lastNameInput"
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="lastName" type="text"
+                           id="lastNameInput"
                            aria-label="default input example"
                            th:value="*{lastName}">
+                    <div th:if="${errors}" th:text="${errors.get('lastName')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp"
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="email" type="email"
+                           id="emailInput" aria-describedby="emailHelp"
                            th:value="*{email}">
+                    <div th:if="${errors}" th:text="${errors.get('email')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3 form-check">
                     <input type="checkbox" name="enabled" th:checked="*{enabled}" th:field="*{enabled}"

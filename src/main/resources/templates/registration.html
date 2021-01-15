@@ -15,26 +15,38 @@
             <form th:action="@{/registration}" method="post">
                 <div class="mb-3">
                     <label for="usernameInput" class="form-label">Username</label>
-                    <input class="form-control" name="username" type="text" id="usernameInput"
-                           aria-label="default input example">
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="username" type="text"
+                           id="usernameInput" th:value="${user} ? ${user.username}" required>
+                    <div th:if="${errors}" th:text="${errors.get('username')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="firstNameInput" class="form-label">First Name</label>
-                    <input class="form-control" name="firstName" type="text" id="firstNameInput"
-                           aria-label="default input example">
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="firstName" type="text"
+                           id="firstNameInput" th:value="${user} ? ${user.firstName}" required>
+                    <div th:if="${errors}" th:text="${errors.get('firstName')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="lastNameInput" class="form-label">Last Name</label>
-                    <input class="form-control" name="lastName" type="text" id="lastNameInput"
-                           aria-label="default input example">
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="lastName" type="text"
+                           id="lastNameInput" th:value="${user} ? ${user.lastName}" required>
+                    <div th:if="${errors}" th:text="${errors.get('lastName')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="emailInput" class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control" id="emailInput" aria-describedby="emailHelp">
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="email" type="email"
+                           id="emailInput" th:value="${user} ? ${user.email}" required>
+                    <div th:if="${errors}" th:text="${errors.get('email')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="passwordInput" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="passwordInput">
+                    <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="password"
+                           type="password" id="passwordInput" required>
+                    <div th:if="${errors}" th:text="${errors.get('password')}" class="invalid-feedback">
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Sign In</button>
             </form>

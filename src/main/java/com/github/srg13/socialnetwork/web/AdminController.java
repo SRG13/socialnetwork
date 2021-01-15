@@ -5,11 +5,17 @@ import com.github.srg13.socialnetwork.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
+import java.util.Map;
+
+import static com.github.srg13.socialnetwork.util.WebUtil.getError;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -37,8 +43,19 @@ public class AdminController {
     }
 
     @PostMapping("/{user}")
-    public String editUser(@ModelAttribute User user) {
-        userService.createOrUpdate(user);
+    public String editUser(
+            @Valid @ModelAttribute User user,
+            BindingResult bindingResult,
+            Model model) {
+
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = getError(bindingResult);
+            model.addAttribute("errors", errors);
+
+            return "userEdit";
+        } else {
+            userService.createOrUpdate(user);
+        }
 
         return "redirect:/users";
     }

@@ -13,6 +13,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -24,11 +27,25 @@ import java.util.Set;
 public class User extends AbstractBaseEntity {
 
     private String profileImage;
+
+    @Size(min = 5, max = 15, message = "Username must not be shorter than 5 symbols and longer than 15")
+    @NotBlank(message = "Username cannot be empty")
     private String username;
+
+    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
+
+    @NotBlank
+    @Size(min = 5, message = "Password must not be shorter than 5 symbols")
     private String password;
+
+    @NotBlank(message = "First name cannot be empty")
     private String firstName;
+
+    @NotBlank(message = "Last name cannot be empty")
     private String lastName;
+
     private boolean enabled;
 
     @Enumerated(EnumType.STRING)
