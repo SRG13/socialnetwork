@@ -10,9 +10,31 @@
 <nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
 <div class="container mt-5">
-    <div class="text-center">
-        <h2>Hello [[${#httpServletRequest.remoteUser}]]!</h2>
-        <h4>My Pet-project.</h4>
+    <div class="row">
+        <div class="col-sm d-flex justify-content-center">
+            <div class="text-center">
+                <h2>Hello [[${#httpServletRequest.remoteUser}]]!</h2>
+                <h4>My Pet-project.</h4>
+                <div sec:authorize="isAnonymous()">
+                    <div class="mt-4 m-2">
+                        <form th:action="@{/login}" method="post">
+                            <input type="hidden" name="username" th:value="admin">
+                            <input type="hidden" name="password" th:value="admin">
+                            <button type="submit" class="btn btn-primary">Login as admin</button>
+                        </form>
+                    </div>
+                    <div class="m-2">
+                        <form th:action="@{/login}" method="post">
+                            <input type="hidden" name="username" th:value="user1">
+                            <input type="hidden" name="password" th:value="12345">
+                            <button type="submit" class="btn btn-primary">Login as user</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt3">
     </div>
 </div>
 </body>
