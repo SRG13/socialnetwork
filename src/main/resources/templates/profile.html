@@ -13,8 +13,9 @@
     <div class="row">
         <div class="col-sm">
             <div class="float-left">
-                <img class="img-thumbnail" th:src="@{/img/{imgName}(imgName=*{profileImage})}" width="30%" ;
-                     height="25%">
+                <img class="img-thumbnail"
+                     th:src="*{profileImage} ? @{/img/{imgName}(imgName=*{profileImage})} : @{/static/images/picture.jpg}"
+                     width="30%" height="25%">
                 <div class="mb-3">
                     <form th:action="@{/profile/addProfileImg}" class="form-group m-2" method="post"
                           enctype="multipart/form-data">

@@ -58,7 +58,6 @@ public class UserService implements UserDetailsService {
     }
 
     public void create(User user) {
-        user.setProfileImage("picture.jpg");
         user.setRoles(Collections.singleton(Role.USER));
         user.setEnabled(true);
 
