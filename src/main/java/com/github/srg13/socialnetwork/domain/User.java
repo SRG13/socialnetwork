@@ -45,8 +45,11 @@ public class User extends AbstractBaseEntity {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "enabled", nullable = false)
+    @Column(name = "enabled", nullable = false, columnDefinition = "BOOL DEFAULT FALSE")
     private boolean enabled;
+
+    @Column(name = "activation_code")
+    private String activationCode;
 
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

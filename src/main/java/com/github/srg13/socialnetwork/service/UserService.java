@@ -28,10 +28,12 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final MailSender mailSender;
 
-    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder, MailSender mailSender) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.mailSender = mailSender;
     }
 
     @Override
@@ -59,9 +61,11 @@ public class UserService implements UserDetailsService {
 
     public void create(User user) {
         user.setRoles(Collections.singleton(Role.USER));
-        user.setEnabled(true);
+        user.setActivationCode(UUID.randomUUID().toString());
 
         userRepo.save(prepareToSave(user, passwordEncoder));
+
+        mailSender.sendActivationMail(user.getUsername(), user.getEmail(), user.getActivationCode());
     }
 
     public void update(User user) {
@@ -86,5 +90,20 @@ public class UserService implements UserDetailsService {
             user.setProfileImage(resultFilename);
             userRepo.save(user);
         }
+    }
+
+    public boolean activateUser(String code) {
+        User user = userRepo.findByActivationCode(code);
+
+        if (user == null) {
+            return false;
+        }
+
+        user.setEnabled(true);
+        user.setActivationCode(null);
+
+        userRepo.save(user);
+
+        return true;
     }
 }
