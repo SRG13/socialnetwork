@@ -12,12 +12,11 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col-sm d-flex justify-content-center">
-            <form th:action="@{/users/{id}(id=${user.id})}" method="post" th:object="${user}">
+            <form th:action="@{/admin/users/{id}(id=${user.id})}" method="post" th:object="${user}">
                 <div class="mb-3">
                     <label for="idInput" class="form-label">Id</label>
                     <input type="text" id="idInput" class="form-control" th:value="*{id}" readonly>
                 </div>
-
                 <div class="mb-3">
                     <label for="usernameInput" class="form-label">Username</label>
                     <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="username" type="text"

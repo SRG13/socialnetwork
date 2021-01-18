@@ -1,7 +1,8 @@
-package com.github.srg13.socialnetwork.web;
+package com.github.srg13.socialnetwork.controller;
 
-import com.github.srg13.socialnetwork.domain.User;
+import com.github.srg13.socialnetwork.model.User;
 import com.github.srg13.socialnetwork.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,31 +19,27 @@ import java.util.Map;
 import static com.github.srg13.socialnetwork.util.WebUtil.getError;
 
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/admin")
 @PreAuthorize("hasAuthority('ADMIN')")
+@AllArgsConstructor
 public class AdminController {
-
     private final UserService userService;
 
-    public AdminController(UserService userService) {
-        this.userService = userService;
-    }
-
-    @GetMapping
+    @GetMapping("/users")
     public String getUsers(Model model) {
         model.addAttribute("users", userService.getAll());
 
         return "users";
     }
 
-    @GetMapping("/{user}")
+    @GetMapping("/users/{user}")
     public String getUser(@PathVariable User user, Model model) {
         model.addAttribute("user", user);
 
         return "userEdit";
     }
 
-    @PostMapping("/{user}")
+    @PostMapping("/users/{user}")
     public String editUser(
             @Valid @ModelAttribute User user,
             BindingResult bindingResult,
@@ -54,9 +51,9 @@ public class AdminController {
 
             return "userEdit";
         } else {
-            userService.createOrUpdate(user);
+            userService.update(user);
         }
 
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 }

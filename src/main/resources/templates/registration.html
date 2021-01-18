@@ -12,7 +12,7 @@
 <div class="container mt-3">
     <div class="row">
         <div class="col-sm d-flex justify-content-center">
-            <form th:action="@{/registration}" method="post">
+            <form th:action="@{/profile/registration}" method="post">
                 <div class="mb-3">
                     <label for="usernameInput" class="form-label">Username</label>
                     <input class="form-control" th:classappend="${errors} ? ' is-invalid'" name="username" type="text"

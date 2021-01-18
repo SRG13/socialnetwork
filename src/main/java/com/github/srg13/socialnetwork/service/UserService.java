@@ -1,9 +1,9 @@
 package com.github.srg13.socialnetwork.service;
 
-import com.github.srg13.socialnetwork.AuthorizedUser;
-import com.github.srg13.socialnetwork.domain.Role;
-import com.github.srg13.socialnetwork.domain.User;
+import com.github.srg13.socialnetwork.model.Role;
+import com.github.srg13.socialnetwork.model.User;
 import com.github.srg13.socialnetwork.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +21,7 @@ import java.util.UUID;
 import static com.github.srg13.socialnetwork.util.UserUtil.prepareToSave;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     @Value("${upload.path}")
@@ -28,20 +29,14 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
-    private final MailSender mailSender;
-
-    public UserService(UserRepository userRepo, PasswordEncoder passwordEncoder, MailSender mailSender) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.mailSender = mailSender;
-    }
+    private final MailService mailService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new AuthorizedUser(userRepo.findByUsername(username));
+        return userRepo.findByUsername(username);
     }
 
-    public User get(int id) {
+    public User get(long id) {
         return userRepo.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("User with id=" + id + " not found")
         );
@@ -51,28 +46,20 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public void createOrUpdate(User user) {
-        if (user.isNew()) {
-            create(user);
-        } else {
-            update(user);
-        }
-    }
-
     public void create(User user) {
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
 
         userRepo.save(prepareToSave(user, passwordEncoder));
 
-        mailSender.sendActivationMail(user.getUsername(), user.getEmail(), user.getActivationCode());
+        mailService.sendActivationMail(user.getUsername(), user.getEmail(), user.getActivationCode());
     }
 
     public void update(User user) {
         userRepo.save(prepareToSave(user, passwordEncoder));
     }
 
-    public void saveProfileImage(int id, MultipartFile img) throws IOException {
+    public void saveProfileImage(long id, MultipartFile img) throws IOException {
         User user = get(id);
 
         if (img != null && !img.getOriginalFilename().isEmpty()) {

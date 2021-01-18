@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MailSender {
+public class MailService {
 
     @Value("${activate.link}")
     private String activationLink;

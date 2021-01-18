@@ -1,4 +1,4 @@
-package com.github.srg13.socialnetwork;
+package com.github.srg13.socialnetwork.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

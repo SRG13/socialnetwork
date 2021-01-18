@@ -1,7 +1,10 @@
-package com.github.srg13.socialnetwork.web;
+package com.github.srg13.socialnetwork.controller;
 
-import com.github.srg13.socialnetwork.domain.User;
+import com.github.srg13.socialnetwork.model.User;
 import com.github.srg13.socialnetwork.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,28 +12,45 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Map;
 
 import static com.github.srg13.socialnetwork.util.WebUtil.getError;
 
 @Controller
-@RequestMapping(value = "/registration")
-public class RegistrationController {
-
+@RequestMapping("/profile")
+@PreAuthorize("hasAuthority('USER')")
+@AllArgsConstructor
+public class ProfileController {
     private final UserService userService;
 
-    public RegistrationController(UserService userService) {
-        this.userService = userService;
+    @GetMapping
+    public String get(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", userService.get(user.getId()));
+
+        return "profile";
     }
 
-    @GetMapping
+    @PostMapping("/addProfileImg")
+    public String addProfileImage(@AuthenticationPrincipal User user, @RequestParam MultipartFile img)
+            throws IOException {
+        userService.saveProfileImage(user.getId(), img);
+
+        return "redirect:/profile";
+    }
+
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
 
-    @PostMapping
+    @PreAuthorize("isAnonymous()")
+    @PostMapping("/registration")
     public String registration(
             @Valid User user,
             BindingResult bindingResult,
@@ -44,7 +64,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        userService.createOrUpdate(user);
+        userService.create(user);
 
         model.addAttribute("message",
                 "You have successfully registered, check your email to find the activation link.");
@@ -52,7 +72,8 @@ public class RegistrationController {
         return "info";
     }
 
-    @GetMapping("/activate/{code}")
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/registration/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 

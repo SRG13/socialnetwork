@@ -1,4 +1,4 @@
-package com.github.srg13.socialnetwork.domain;
+package com.github.srg13.socialnetwork.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
